@@ -22,16 +22,23 @@
     </ion-col>
   </ion-row>
   <ion-row>
-    <ion-col>
+    <ion-col >
       <video width="320" height="240" controls *ngIf="videoHasData">
-        <source [src]="previewFile" type="video/mp4">
+        <source [src]="previewFile" type="video/mp4" >
+       
       </video>
+      <ion-button (click)="onClick(previewFile)" color="danger" shape="round">
+        <ion-icon name="trash-outline"></ion-icon>
+      </ion-button>
     </ion-col>
   </ion-row>
   <ion-col *ngIf="videoHasData">
     <ion-button (click)="deleteVideo()" color="danger" shape="round">
       <ion-icon name="trash-outline"></ion-icon>
     </ion-button>
+  </ion-col>
+  <ion-col>
+   
   </ion-col>
 </ion-content>
 

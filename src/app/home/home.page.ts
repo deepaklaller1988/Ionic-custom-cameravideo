@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { CameraPreview, CameraPreviewPictureOptions } from '@ionic-native/camera-preview/ngx';
-import { Platform } from '@ionic/angular';
+import { Platform ,NavController} from '@ionic/angular';
 import { Media, MediaObject } from '@ionic-native/media/ngx';
 import { MediaCapture, MediaFile, CaptureError, CaptureImageOptions, CaptureVideoOptions, CaptureAudioOptions } from '@ionic-native/media-capture/ngx';
 import { File, FileEntry } from '@ionic-native/file/ngx';
@@ -9,7 +9,8 @@ import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { Base64ToGallery, Base64ToGalleryOptions } from '@ionic-native/base64-to-gallery/ngx';
 import { PhotoViewer } from '@ionic-native/photo-viewer/ngx';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
+// import { url } from 'inspector';
 
 // import Wavesurfer from 'videojs-wavesurfer/dist/videojs.wavesurfer.js';
 // import WaveSurfer from 'wavesurfer.js';
@@ -36,6 +37,7 @@ export class HomePage implements OnInit {
   file: MediaObject;
   tracks: any;
   playing: boolean = true;
+  recordedVideo:any[];
 
 
 
@@ -52,6 +54,7 @@ export class HomePage implements OnInit {
     private photoViewer: PhotoViewer,
     private activatedRoute: ActivatedRoute,
     private router: Router,
+    public navController:NavController
     // private file: File,
   ) {
 
@@ -276,7 +279,9 @@ export class HomePage implements OnInit {
       if (this.platform.is('android')) {
         this.previewFile = (<any>window).Ionic.WebView.convertFileSrc('file://' + videoData);
         console.log("previewFile", this.previewFile)
+     
         this.videoHasData = true;
+        this.recordedVideo=this.previewFile
 
       }
     }, (err) => {
@@ -377,9 +382,23 @@ export class HomePage implements OnInit {
     this.androidPermissions.requestPermissions([this.androidPermissions.PERMISSION.READ_EXTERNAL_STORAGE]);
     console.log("permission checked")
   }
+  onClick(previewFile){
+    let navigationExtras: NavigationExtras = {
+      queryParams: {
+        url :this.recordedVideo
+      }
+     
+      
+    };
+
+    console.log("recordedVideo",this.recordedVideo)
+    this.navController.navigateForward(['all-video'], navigationExtras);
+  }
+  }
 
 
 
-}
+
+
 
 

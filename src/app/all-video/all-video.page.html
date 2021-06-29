@@ -8,5 +8,8 @@
 </ion-header>
 
 <ion-content>
-
+  <video width="320" height="240" controls>
+    <source [src]="recordedVideo" type="video/mp4" *ngIf="videoHasData">
+   
+  </video>
 </ion-content>
